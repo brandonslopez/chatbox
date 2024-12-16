@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from 'react';
+import styles from './Chatbot.module.css';
 
 const Chatbot = () => {
     const [prompt, setPrompt] = useState('');
@@ -7,7 +10,7 @@ const Chatbot = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch('http://localhost:5000/propertydetails', {
+        const res = await fetch('/api/propertydetails', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,20 +23,18 @@ const Chatbot = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className={styles.chatbot}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <input
                     type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Ask a question about the property"
+                    placeholder="Ask something..."
+                    className={styles.input}
                 />
-                <button type="submit">Send</button>
+                <button type="submit" className={styles.button}>Submit</button>
             </form>
-            <div>
-                <h3>Response:</h3>
-                <p>{response}</p>
-            </div>
+            {response && <div className={styles.response}>{response}</div>}
         </div>
     );
 };
